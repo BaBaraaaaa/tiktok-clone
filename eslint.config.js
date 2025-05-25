@@ -49,7 +49,7 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       // TypeScript rules
-      '@typescript-eslint/explicit-function-return-type': 'off', // Allow implicit return types
+      // '@typescript-eslint/explicit-function-return-type': 'off', // Allow implicit return types
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }], // Ignore unused vars starting with _
       '@typescript-eslint/no-explicit-any': 'warn', // Warn instead of error for 'any'
       'prettier/prettier': 'error',

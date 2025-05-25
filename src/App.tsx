@@ -1,12 +1,24 @@
-import { useState } from 'react';
-function App() {
-    const [count, setCount] = useState(0);
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-    return (
-        <>
-            <h1>Tiktok-Clone</h1>
-        </>
-    );
+import { publicRoutes } from "./routes";
+import type { Component } from "react";
+interface IPage {
+    path: string;
+    component: () => Element;
+}
+function App() {
+  return (
+    <>
+      <Router>
+        <Routes>
+          {publicRoutes.map((route: any)  => {
+            const Page = route.component;
+            return <Route   path={route.path} element={<Page />} />;
+          })}
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App;

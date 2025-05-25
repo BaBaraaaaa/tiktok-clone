@@ -1,0 +1,4 @@
+Phân tích tổng quan Layout (done)
+Cài đặt react-router-dom: yarn add react-router-dom (done)
+Đưa cấu hình routes ra ngoài 
+Xây dựng cơ chế tải Layout

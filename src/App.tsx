@@ -1,24 +1,13 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Router, Routes } from 'react-router-dom';
+import RootRouter from './routes/rootRouter';
+import GlobalStyles from './components/GlobalStyles';
 
-import { publicRoutes } from "./routes";
-import type { Component } from "react";
-interface IPage {
-    path: string;
-    component: () => Element;
-}
 function App() {
-  return (
-    <>
-      <Router>
-        <Routes>
-          {publicRoutes.map((route: any)  => {
-            const Page = route.component;
-            return <Route   path={route.path} element={<Page />} />;
-          })}
-        </Routes>
-      </Router>
-    </>
-  );
+  return <BrowserRouter>
+  <GlobalStyles>
+    <RootRouter/>
+  </GlobalStyles>
+  </BrowserRouter>;
 }
 
 export default App;

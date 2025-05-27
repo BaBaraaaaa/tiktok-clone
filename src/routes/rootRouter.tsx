@@ -1,7 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import HeaderOnly from '../Layout/DefaultLayout/HeaderOnly';
-import AuthLayout from '../Layout/AuthLayout';
-import DefaultLayout from '../Layout/DefaultLayout';
 import About from '../pages/About';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
@@ -10,7 +7,9 @@ import Following from '../pages/Following';
 import HomePage from '../pages/Home';
 import Profile from '../pages/Profile';
 import Upload from '../pages/Upload';
-import { Navigate } from 'react-router-dom';
+import AuthLayout from '../components/Layouts/AuthLayout';
+import DefaultLayout from '../components/Layouts/DefaultLayout';
+import HeaderOnly from '../components/Layouts/DefaultLayout/HeaderOnly';
 
 const rootRouter = () => {
   return (

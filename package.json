@@ -33,6 +33,7 @@
     "redux-deep-persist": "^1.0.7",
     "redux-persist": "^6.0.0",
     "styled-components": "^6.1.18",
+    "uuid": "^11.1.0",
     "yarn": "^1.22.22"
   },
   "devDependencies": {

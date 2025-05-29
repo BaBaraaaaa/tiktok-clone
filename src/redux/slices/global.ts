@@ -1,19 +1,19 @@
+import { mockVideos, mockChannels, mockSearchHistory } from '@/mockDb/mockDb';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { GlobalState, ThemeMode } from '../type';
+import type { Channel, Video } from '@/types/mock';
+import { v4 as uuidv4 } from 'uuid';
 
-interface GlobalState {
-  theme: 'light' | 'dark';
-  isAuthenticated: boolean;
-  user: { id: string; name: string; avatar: string } | null;
-  history: string[]; // Lưu ID video đã xem
-  globalSearch: string; // Tìm kiếm toàn cục
-}
 const initialState: GlobalState = {
-  theme: 'light',
-  isAuthenticated: false,
-  user: null,
-  history: [],
+  theme: 'dark',
   globalSearch: '',
+  history: [],
+  user: undefined,
+  businessInfoStatus: 'idle',
+  videos: mockVideos,
+  channels: mockChannels,
+  searchHistory: mockSearchHistory,
 };
 const globalSlice: any = createSlice({
   name: 'global',
@@ -21,25 +21,33 @@ const globalSlice: any = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    toggleTheme: (state) => {
-      state.theme = state.theme === 'light' ? 'dark' : 'light';
-    },
-    setAuth: (state, action: PayloadAction<boolean>) => {
-      state.isAuthenticated = action.payload;
-    },
-    setUser: (state, action: PayloadAction<{ id: string; name: string; avatar: string } | null>) => {
-      state.user = action.payload;
-    },
-    addToHistory: (state, action: PayloadAction<string>) => {
-      if (!state.history.includes(action.payload)) {
-        state.history.unshift(action.payload);
-        state.history = state.history.slice(0, 10); // Giới hạn 10 video
-      }
-    },
     setGlobalSearch: (state, action: PayloadAction<string>) => {
       state.globalSearch = action.payload;
     },
+    addToHistory: (state, action: PayloadAction<string>) => {
+      state.history.push(action.payload);
+    },
+    setBusinessInfoStatus: (state, action: PayloadAction<'idle' | 'loading' | 'succeeded' | 'failed'>) => {
+      state.businessInfoStatus = action.payload;
+    },
+    addSearchQuery: (state, action: PayloadAction<string>) => {
+      const newHistory = {
+        id: uuidv4(),
+        query: action.payload,
+        timestamp: new Date().toISOString(),
+      };
+      state.searchHistory.push(newHistory);
+    },
+    setVideos: (state, action: PayloadAction<Video[]>) => {
+      state.videos = action.payload;
+    },
+    setChannels: (state, action: PayloadAction<Channel[]>) => {
+      state.channels = action.payload;
+    },
+    setTheme: (state, action: PayloadAction<ThemeMode>) => {
+      state.theme = action.payload;
+    },
   },
 });
-export const { toggleTheme, setAuth, setUser, addToHistory, setGlobalSearch } = globalSlice.actions;
+export const { toggleTheme, setAuth, setUser, addToHistory, setGlobalSearch, setTheme } = globalSlice.actions;
 export default globalSlice.reducer;

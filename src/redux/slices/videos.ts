@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockVideos } from '../../mockDb/mockDb';
-import type { Video } from '../../mockDb/mockDb';
+import type { Video } from '@/types/mock';
 interface VideoState {
   videos: Video[];
   currentVideo: Video | null;
@@ -21,7 +21,7 @@ const videoSlice = createSlice({
     },
     searchVideos: (state, action: PayloadAction<string>) => {
       const query = action.payload.toLowerCase();
-      state.videos = mockVideos.filter((video) => video.title.toLowerCase().includes(query) || video.uploader.toLowerCase().includes(query));
+      state.videos = mockVideos.filter((video) => video.title.toLowerCase().includes(query) || video.title.toLowerCase().includes(query));
     },
   },
 });

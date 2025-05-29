@@ -11,6 +11,8 @@ import { setGlobalSearch } from '@/redux/slices/global';
 import { searchVideos } from '@/redux/slices/videos';
 import { useAppDispatch, useAppSelector, type RootState } from '@/redux/store';
 import type { HeaderProps } from '@/types/layout';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import { setTheme } from '@/redux/slices/global';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -20,7 +22,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.grey[200], 0.9),
   },
   '&:focus-within': {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: alpha(theme.palette.grey[200], 0.9),
     boxShadow: theme.shadows[2],
     outline: `1px solid ${theme.palette.primary.main}`,
   },
@@ -48,7 +50,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: theme.palette.text.primary, // set màu chữ theo theme
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -56,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     '&::placeholder': {
-      color: alpha(theme.palette.common.black, 0.5),
+      color: alpha(theme.palette.text.primary, 0.5), // placeholder mờ hơn text
       opacity: 0.8,
     },
     [theme.breakpoints.up('sm')]: {
@@ -93,7 +95,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const { globalSearch: searchQuery } = useAppSelector((state: RootState) => state.global);
+  const { searchQuery } = useAppSelector((state: RootState) => state.global);
   const [auth, setAuth] = useState(false);
   const [openPopper, setOpenPopper] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -116,17 +118,20 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
     setOpenPopper(true);
   };
 
-  const handleClosePopper = () => {
-    setOpenPopper(false);
-    setAnchorEl(null);
-  };
-
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setGlobalSearch(e.target.value));
   };
 
   const handleSearch = () => {
     dispatch(searchVideos(searchQuery));
+  };
+  const handleToggleTheme = () => {
+    const current = theme.palette.mode; // từ useTheme()
+    console.log(current);
+    const next = current === 'dark' ? 'light' : current === 'light' ? 'custom' : 'dark';
+    console.log('next', next);
+    console.log('setTheme', setTheme);
+    dispatch(setTheme(next));
   };
 
   return (
@@ -203,6 +208,7 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
+                  <MenuItem onClick={handleToggleTheme}>Change Theme</MenuItem>
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>

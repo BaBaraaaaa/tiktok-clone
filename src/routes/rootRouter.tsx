@@ -7,9 +7,10 @@ import Following from '../pages/Following';
 import HomePage from '../pages/Home';
 import Profile from '../pages/Profile';
 import Upload from '../pages/Upload';
-import AuthLayout from '../components/Layouts/AuthLayout';
-import DefaultLayout from '../components/Layouts/DefaultLayout';
-import HeaderOnly from '../components/Layouts/DefaultLayout/HeaderOnly';
+import AuthLayout from '../Layouts/AuthLayout';
+import DefaultLayout from '../Layouts/DefaultLayout';
+import HeaderOnly from '../Layouts/DefaultLayout/HeaderOnly';
+import VideoPlayer from '@/pages/Videos/player';
 
 const rootRouter = () => {
   return (
@@ -19,6 +20,7 @@ const rootRouter = () => {
         <Route path="/following" element={<Following />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/about" element={<About />} />
+        <Route path="/video/:id" element={<VideoPlayer/>}></Route>
       </Route>
       <Route element={<HeaderOnly />}>
         <Route path="/upload" element={<Upload />} />

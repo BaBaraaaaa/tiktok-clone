@@ -89,7 +89,10 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   borderRadius: 50,
-  color: theme.palette.common.white,
+  backgroundColor: alpha(theme.palette.grey[700], 0.2), // nền tối hơn một chút
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.grey[700], 0.3),
+  },
 }));
 
 const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {

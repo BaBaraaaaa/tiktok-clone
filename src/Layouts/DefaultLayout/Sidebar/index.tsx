@@ -24,6 +24,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import type { SidebarProps } from '@/types/layout';
 import type { PropItem } from '@/types/ui';
+import SidebarSection from './components/SidebarSection';
 
 const drawerWidth = 240;
 const drawerWidthCollapsed = 60;
@@ -51,7 +52,7 @@ const SidebarContainer = styled(Box, {
   scrollbarWidth: 'none',
 }));
 
-const CustomListItemIcon = styled(ListItemIcon, {
+export const CustomListItemIcon = styled(ListItemIcon, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<{ open: boolean }>(({ theme, open }) => ({
   minWidth: open ? '40px' : '0px',
@@ -63,7 +64,7 @@ const CustomListItemIcon = styled(ListItemIcon, {
   },
 }));
 
-const CustomListItemButton = styled(ListItemButton, {
+export const CustomListItemButton = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<{ open: boolean }>(({ theme, open, selected }) => ({
   padding: theme.spacing(1, open ? 2 : 0),
@@ -77,7 +78,7 @@ const CustomListItemButton = styled(ListItemButton, {
   }),
 }));
 
-const CustomListItemText = styled(ListItemText, {
+export const CustomListItemText = styled(ListItemText, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<{ open: boolean }>(({ theme, open }) => ({
   display: open ? 'block' : 'none',
@@ -87,7 +88,7 @@ const CustomListItemText = styled(ListItemText, {
   },
 }));
 
-const NotificationDot = styled(Box, {
+export const NotificationDot = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<{ open: boolean }>(({ theme, open }) => ({
   width: 6,
@@ -98,7 +99,7 @@ const NotificationDot = styled(Box, {
   display: open ? 'block' : 'none',
 }));
 
-const ChannelAvatar = styled('img')(({ theme }) => ({
+export const ChannelAvatar = styled('img')(({ theme }) => ({
   width: 24,
   height: 24,
   borderRadius: '50%',
@@ -115,10 +116,10 @@ export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
   ];
 
   const youItems = [
-    { icon: <HistoryIcon fontSize="small" />, text: 'History', selected: false },
-    { icon: <PlaylistAddIcon fontSize="small" />, text: 'Playlists', selected: false },
-    { icon: <WatchLaterIcon fontSize="small" />, text: 'Watch later', selected: false },
-    { icon: <ThumbUpIcon fontSize="small" />, text: 'Liked videos', selected: false },
+    { icon: <HistoryIcon fontSize="small" />, text: 'History', path: '/history', selected: false },
+    { icon: <PlaylistAddIcon fontSize="small" />, text: 'Playlists', path: '/playlists', selected: false },
+    { icon: <WatchLaterIcon fontSize="small" />, text: 'Watch later', path: '/watch-later', selected: false },
+    { icon: <ThumbUpIcon fontSize="small" />, text: 'Liked videos', path: '/liked-videos', selected: false },
   ];
 
   const subscriptionItems = [
@@ -171,97 +172,22 @@ export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
         <>
           <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
 
-          <Box sx={{ padding: theme.spacing(1, 2) }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              You <ExpandMoreIcon fontSize="small" />
-            </Typography>
-          </Box>
-          <List dense>
-            {youItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <CustomListItemButton open={open} selected={item.selected || false}>
-                  <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
-                  <CustomListItemText open={open} primary={item.text} />
-                </CustomListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          <SidebarSection open={open} title="You" items={youItems} showExpandIcon />
+
+          <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
+          <SidebarSection open={open} title="Subscriptions" items={subscriptionItems} showExpandIcon />
 
           <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
 
-          <Box sx={{ padding: theme.spacing(1, 2) }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              Subscriptions
-            </Typography>
-          </Box>
-          <List dense>
-            {subscriptionItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <CustomListItemButton open={open} selected={item.selected || false}>
-                  <CustomListItemIcon open={open}>
-                    <ChannelAvatar src={item.image} style={{ backgroundColor: item.color }} />
-                  </CustomListItemIcon>
-                  <CustomListItemText open={open} primary={item.name} />
-                  {item.notification && <NotificationDot open={open} />}
-                </CustomListItemButton>
-              </ListItem>
-            ))}
-          </List>
-
-          <ListItem disablePadding>
-            <CustomListItemButton open={open}>
-              <CustomListItemIcon open={open}>
-                <ExpandMoreIcon fontSize="small" />
-              </CustomListItemIcon>
-              <CustomListItemText open={open} primary="All subscriptions" />
-            </CustomListItemButton>
-          </ListItem>
-
-          <Box sx={{ padding: theme.spacing(1, 2) }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              Explore
-            </Typography>
-          </Box>
-          <List dense>
-            {exploreItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <CustomListItemButton open={open} selected={item.selected || false}>
-                  <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
-                  <CustomListItemText open={open} primary={item.text} />
-                </CustomListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
-
-          <Box sx={{ padding: theme.spacing(1, 2) }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-              More from YouTube
-            </Typography>
-          </Box>
-          <List dense>
-            {moreFromYouTubeItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <CustomListItemButton open={open} selected={item.selected || false}>
-                  <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
-                  <CustomListItemText open={open} primary={item.text} />
-                </CustomListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          <SidebarSection open={open} title="Explore" items={exploreItems} showExpandIcon />
 
           <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
+          <SidebarSection open={open} title="More For You" items={moreFromYouTubeItems} showExpandIcon />
 
-          <List dense>
-            {settingsItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <CustomListItemButton open={open} selected={item.selected || false}>
-                  <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
-                  <CustomListItemText open={open} primary={item.text} />
-                </CustomListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
+          <SidebarSection open={open} title="Settings" items={settingsItems} showExpandIcon />
+
+          <Divider sx={{ backgroundColor: theme.palette.grey[200] }} />
         </>
       )}
     </SidebarContainer>

@@ -39,8 +39,8 @@ export const useAppTheme = () => {
       palette: {
         mode: 'light',
         primary: {
-          main: '#ff0000',
-          dark: '#cc0000',
+          main: '#ffff',
+          dark: '#cccc',
         },
         background: {
           default: '#f0f0f0',
@@ -60,8 +60,8 @@ export const useAppTheme = () => {
       palette: {
         mode: 'dark',
         primary: {
-          main: '#ff0000',
-          dark: '#cc0000',
+          main: '#fff',
+          dark: '#cccc',
         },
         background: {
           default: '#2e2e2e',

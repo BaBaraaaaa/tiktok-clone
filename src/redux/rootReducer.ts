@@ -9,13 +9,13 @@ export const rootReducer = combineReducers({
   global: globalReducer,
   videos: videoReducer,
 });
-export const whileListGlobal = ['global.theme', 'global.isAuthenticated', 'global.user', 'global.history'];
+export const whiteListGlobal  = ['global.theme', 'global.isAuthenticated', 'global.user', 'global.history', ' global.videos'];
 
 export const whileListVideos = ['videos.currentVideo'];
 export const rootPersistConfig = getPersistConfig({
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  whitelist: [...whileListGlobal, ...whileListVideos],
+  whitelist: [...whiteListGlobal , ...whileListVideos],
   rootReducer,
 });

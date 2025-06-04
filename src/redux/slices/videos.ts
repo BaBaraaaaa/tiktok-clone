@@ -1,30 +1,50 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { mockVideos } from '../../mockDb/mockDb';
+import { mockVideos } from '@/mockDb/mockDb';
 import type { Video } from '@/types/mock';
-interface VideoState {
+
+interface VideosState {
   videos: Video[];
-  currentVideo: Video | null;
+  currentVideo?: Video;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error?: string;
 }
 
-const initialState: VideoState = {
+const initialState: VideosState = {
   videos: mockVideos,
-  currentVideo: null,
+  currentVideo: undefined,
+  status: 'idle',
+  error: undefined,
 };
 
-const videoSlice = createSlice({
+const videosSlice = createSlice({
   name: 'videos',
   initialState,
   reducers: {
-    setCurrentVideo: (state, action: PayloadAction<string>) => {
-      state.currentVideo = state.videos.find((video) => video.id === action.payload) || null;
+    setVideos: (state, action: PayloadAction<Video[]>) => {
+      state.videos = action.payload;
+      state.status = 'succeeded';
+    },
+    addVideo: (state, action: PayloadAction<Video>) => {
+      state.videos.push(action.payload);
+    },
+    setCurrentVideo: (state, action: PayloadAction<Video | undefined>) => {
+      state.currentVideo = action.payload;
     },
     searchVideos: (state, action: PayloadAction<string>) => {
-      const query = action.payload.toLowerCase();
-      state.videos = mockVideos.filter((video) => video.title.toLowerCase().includes(query) || video.title.toLowerCase().includes(query));
+      state.videos = mockVideos.filter((video) =>
+        video.title.toLowerCase().includes(action.payload.toLowerCase()),
+      );
+      state.status = 'succeeded';
+    },
+    setVideosStatus: (state, action: PayloadAction<'idle' | 'loading' | 'succeeded' | 'failed'>) => {
+      state.status = action.payload;
+    },
+    setVideosError: (state, action: PayloadAction<string | undefined>) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { setCurrentVideo, searchVideos } = videoSlice.actions;
-export default videoSlice.reducer;
+export const { setVideos, addVideo, setCurrentVideo, searchVideos, setVideosStatus, setVideosError } = videosSlice.actions;
+export default videosSlice.reducer;

@@ -13,6 +13,10 @@ import { useAppDispatch, useAppSelector, type RootState } from '@/redux/store';
 import type { HeaderProps } from '@/types/layout';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { setTheme } from '@/redux/slices/global';
+import LogoSection from './components/LogoSection';
+import SearchSection from './components/SearchSection';
+import ThemeToggle from './components/ThemeToggle';
+import UserMenu from './components/UserMenu';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -95,7 +99,7 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
+const Header = ({ open, handleDrawerToggle }: HeaderProps) => {
   const theme = useTheme();
   console.log(theme);
   const dispatch = useAppDispatch();
@@ -175,97 +179,20 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
         minHeight: 64,
         display: 'flex',
         width: '100%',
-        backgroundColor:'transparent', 
+        backgroundColor: 'transparent',
         backdropFilter: 'blur(10px)',
       }}
     >
       <Toolbar sx={{ minHeight: 64, display: 'flex', width: '100%' }}>
         <Box sx={{ flexShrink: 0, width: 150 }}>
-          <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerToggle} edge="start" sx={{ mr: 2 }}>
-            <MenuIcon />
-          </IconButton>
-          <IconButton size="large" edge="start" aria-label="menu">
-            <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="YouTube logo" style={{ width: '90px', height: '20px' }} />
-          </IconButton>
+          <LogoSection open={open} handleDrawerToggle={handleDrawerToggle} />
         </Box>
 
-        <Box
-          sx={{
-            flexGrow: 1,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 1,
-            maxWidth: '600px',
-            mx: 'auto',
-          }}
-        >
-          <Search>
-            <SearchIconWrapper>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search videos"
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') handleSearch();
-              }}
-            />
-          </Search>
-          <StyledIconButton onClick={handleSearch}>
-            <SettingsVoiceIcon />
-          </StyledIconButton>
-        </Box>
+        <SearchSection />
 
         <RightSection sx={{ gap: 2 }}>
-          <Stack spacing={2}>
-            <StyledIconButton onClick={handleOpenPopper} sx={{ marginLeft: '20px' }}>
-              <MoreVertIcon />
-            </StyledIconButton>
-          </Stack>
-          <Box>
-            {openPopper && anchorEl && (
-              <Popper open={openPopper} anchorEl={anchorEl} transition>
-                {({ TransitionProps }) => (
-                  <Fade {...TransitionProps} timeout={350}>
-                    <Box ref={popperRef} sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                      <MenuItem onClick={handleToggleTheme}>Change Theme</MenuItem>
-                    </Box>
-                  </Fade>
-                )}
-              </Popper>
-            )}
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            {auth ? (
-              <>
-                <StyledIconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenMenu}>
-                  <AccountCircleIcon />
-                </StyledIconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  keepMounted
-                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
-              </>
-            ) : (
-              <>
-                <StyledButton variant="outlined" onClick={() => setAuth(true)} startIcon={<AccountCircleIcon />}>
-                  Login
-                </StyledButton>
-              </>
-            )}
-          </Box>
+          <ThemeToggle/>
+          <UserMenu/>
         </RightSection>
       </Toolbar>
     </Paper>

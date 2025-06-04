@@ -1,13 +1,21 @@
 import { Box, Divider, List, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SidebarCard from '../SidebarCard';
+import { useNavigate } from 'react-router-dom';
 interface SidebarSectionProps {
   open: boolean;
   title?: string;
-  items: any[]; // bạn có thể type cụ thể hơn tùy data bạn
+  items: any[];
   showExpandIcon?: boolean;
 }
 const SidebarSection = ({ open, title, items, showExpandIcon }: SidebarSectionProps) => {
+  const navigate = useNavigate();
+  const handleItemClick = (path?: string) => {
+    console.log('click navigate');
+    if (path) {
+      navigate(path);
+    }
+  };
   return (
     <>
       {open && title && (
@@ -20,7 +28,15 @@ const SidebarSection = ({ open, title, items, showExpandIcon }: SidebarSectionPr
 
       <List dense>
         {items.map((item, index) => (
-          <SidebarCard key={index} open={open} icon={item.icon} text={item.text || item.name} selected={item.selected} notification={item.notification}>
+          <SidebarCard
+            key={index}
+            open={open}
+            icon={item.icon}
+            text={item.text || item.name}
+            selected={item.selected}
+            notification={item.notification}
+            onClick={() => handleItemClick(item.path)}
+          >
             {item.image && open && <img src={item.image} style={{ width: 24, height: 24, borderRadius: '50%' }} />}
           </SidebarCard>
         ))}

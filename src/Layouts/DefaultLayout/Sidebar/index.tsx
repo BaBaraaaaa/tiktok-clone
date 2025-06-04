@@ -25,6 +25,7 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import type { SidebarProps } from '@/types/layout';
 import type { PropItem } from '@/types/ui';
 import SidebarSection from './components/SidebarSection';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 const drawerWidthCollapsed = 60;
@@ -108,11 +109,11 @@ export const ChannelAvatar = styled('img')(({ theme }) => ({
 
 export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
   const theme = useTheme();
-
+  const navigate = useNavigate();
   const menuItems: PropItem[] = [
-    { icon: <HomeFilledIcon fontSize="small" />, text: 'Home', selected: true },
-    { icon: <AppShortcutIcon fontSize="small" />, text: 'Shorts' },
-    { icon: <SubscriptionsIcon fontSize="small" />, text: 'Subscriptions', notification: true },
+    { icon: <HomeFilledIcon fontSize="small" />, text: 'Home', path: '/', selected: true },
+    { icon: <AppShortcutIcon fontSize="small" />, text: 'Shorts', path: '/shorts' },
+    { icon: <SubscriptionsIcon fontSize="small" />, text: 'Subscriptions', path: '/subscriptions', notification: true },
   ];
 
   const youItems = [
@@ -151,6 +152,11 @@ export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
     { icon: <HelpIcon fontSize="small" />, text: 'Help', selected: false },
     { icon: <FeedbackIcon fontSize="small" />, text: 'Send feedback', selected: false },
   ];
+  const handleNavigate = (path?: string) => {
+    if (path) {
+      navigate(path);
+    }
+  };
 
   return (
     <SidebarContainer open={open}>
@@ -158,7 +164,7 @@ export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
       <List dense>
         {menuItems.map((item: PropItem, index: number) => (
           <ListItem key={index} disablePadding>
-            <CustomListItemButton open={open} selected={item.selected}>
+            <CustomListItemButton open={open} selected={item.selected} onClick={() => handleNavigate(item.path)}>
               <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
               <CustomListItemText open={open} primary={item.text} />
               {item.notification && <NotificationDot open={open} />}

@@ -1,9 +1,9 @@
-import { AppBar, Box, Button, IconButton, InputBase, Menu, MenuItem, Popper, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Fade, IconButton, InputBase, Menu, MenuItem, Paper, Popper, Stack, Toolbar, Typography } from '@mui/material';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
-import { useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -83,8 +83,8 @@ const StyledButton = styled(Button)(({ theme }) => ({
   padding: theme.spacing(0.75, 2),
   fontWeight: 600,
   marginLeft: theme.spacing(1),
-  color: theme.palette.common.white,
-  borderColor: theme.palette.common.white,
+  color: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark,
+  borderColor: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark,
 }));
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
@@ -97,11 +97,14 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 
 const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
   const theme = useTheme();
+  console.log(theme);
   const dispatch = useAppDispatch();
   const { searchQuery } = useAppSelector((state: RootState) => state.global);
   const [auth, setAuth] = useState(false);
   const [openPopper, setOpenPopper] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const popperRef = useRef<HTMLDivElement>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleOpenMenu = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -118,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
 
   const handleOpenPopper = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
-    setOpenPopper(true);
+    setOpenPopper((prev) => !prev);
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,22 +133,53 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
   };
   const handleToggleTheme = () => {
     const current = theme.palette.mode; // từ useTheme()
-    console.log(current);
     const next = current === 'dark' ? 'light' : current === 'light' ? 'custom' : 'dark';
-    console.log('next', next);
-    console.log('setTheme', setTheme);
     dispatch(setTheme(next));
+    setOpenPopper(false);
   };
+  const handleClickOutside = (event: MouseEvent) => {
+    if (popperRef.current && !popperRef.current.contains(event.target as Node)) {
+      setOpenPopper(false);
+    }
+  };
+  useEffect(() => {
+    if (openPopper) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
 
+    // Dọn dẹp sự kiện khi component unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openPopper]);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   return (
-    <AppBar position="fixed">
-      <Toolbar
-        sx={{
-          minHeight: 64,
-          display: 'flex',
-          width: '100%',
-        }}
-      >
+    <Paper
+      elevation={0}
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: theme.zIndex.appBar,
+        minHeight: 64,
+        display: 'flex',
+        width: '100%',
+        backgroundColor:'transparent', 
+        backdropFilter: 'blur(10px)',
+      }}
+    >
+      <Toolbar sx={{ minHeight: 64, display: 'flex', width: '100%' }}>
         <Box sx={{ flexShrink: 0, width: 150 }}>
           <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerToggle} edge="start" sx={{ mr: 2 }}>
             <MenuIcon />
@@ -185,18 +219,26 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
           </StyledIconButton>
         </Box>
 
-        <RightSection>
-          <StyledIconButton onClick={handleOpenPopper}>
-            <MoreVertIcon />
-          </StyledIconButton>
-          {openPopper && anchorEl && (
-            <Popper open={openPopper} anchorEl={anchorEl}>
-              <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                <Typography>More options</Typography>
-              </Box>
-            </Popper>
-          )}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <RightSection sx={{ gap: 2 }}>
+          <Stack spacing={2}>
+            <StyledIconButton onClick={handleOpenPopper} sx={{ marginLeft: '20px' }}>
+              <MoreVertIcon />
+            </StyledIconButton>
+          </Stack>
+          <Box>
+            {openPopper && anchorEl && (
+              <Popper open={openPopper} anchorEl={anchorEl} transition>
+                {({ TransitionProps }) => (
+                  <Fade {...TransitionProps} timeout={350}>
+                    <Box ref={popperRef} sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                      <MenuItem onClick={handleToggleTheme}>Change Theme</MenuItem>
+                    </Box>
+                  </Fade>
+                )}
+              </Popper>
+            )}
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             {auth ? (
               <>
                 <StyledIconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenMenu}>
@@ -211,7 +253,6 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleToggleTheme}>Change Theme</MenuItem>
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -219,16 +260,15 @@ const Header: React.FC<HeaderProps> = ({ open, handleDrawerToggle }) => {
               </>
             ) : (
               <>
-                <StyledButton variant="outlined" onClick={() => setAuth(true)}>
+                <StyledButton variant="outlined" onClick={() => setAuth(true)} startIcon={<AccountCircleIcon />}>
                   Login
                 </StyledButton>
-                <StyledButton variant="outlined">Register</StyledButton>
               </>
             )}
           </Box>
         </RightSection>
       </Toolbar>
-    </AppBar>
+    </Paper>
   );
 };
 

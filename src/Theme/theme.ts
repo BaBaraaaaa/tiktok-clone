@@ -23,11 +23,11 @@ export const useAppTheme = () => {
         },
         background: {
           default: '#121212',
-          paper: '#1e1e1e',
+          paper: '#121212',
         },
         text: {
           primary: '#ffffff',
-          secondary: '#bbbbbb',
+          secondary: '#ffffff',
         },
         grey: {
           100: '#333',
@@ -40,7 +40,7 @@ export const useAppTheme = () => {
         mode: 'light',
         primary: {
           main: '#ffff',
-          dark: '#cccc',
+          dark: '#000000',
         },
         background: {
           default: '#f0f0f0',
@@ -64,8 +64,8 @@ export const useAppTheme = () => {
           dark: '#cccc',
         },
         background: {
-          default: '#2e2e2e',
-          paper: '#3a3a3a',
+          default: '#000000',
+          paper: '#000000',
         },
         text: {
           primary: '#ffffff',
@@ -91,8 +91,7 @@ export const useAppTheme = () => {
     components: {
       MuiAppBar: {
         styleOverrides: {
-          root: {
-          },
+          root: {},
         },
       },
       MuiButton: {

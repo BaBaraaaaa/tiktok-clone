@@ -1,21 +1,75 @@
 import { combineReducers } from 'redux';
 import globalReducer from './slices/global';
-import videoReducer from './slices/videos';
+import videosReducer from './slices/videos';
+import notificationsReducer from './slices/notifications';
+import channelsReducer from './slices/channels';
+import shortsReducer from './slices/shorts';
+import playlistsReducer from './slices/playlists';
+import commentsReducer from './slices/comments';
 import storage from 'redux-persist/lib/storage';
 import { getPersistConfig } from 'redux-deep-persist';
 
 //-------------------------------
 export const rootReducer = combineReducers({
-  global: globalReducer,
-  videos: videoReducer,
+  global: globalReducer, // Quản lý trạng thái toàn cục (theme, search, user, v.v.)
+  videos: videosReducer, // Quản lý danh sách video
+  channels: channelsReducer, // Quản lý kênh
+  shorts: shortsReducer, // Quản lý video ngắn (YouTube Shorts)
+  playlists: playlistsReducer, // Quản lý danh sách phát
+  comments: commentsReducer, // Quản lý bình luận
+  notifications: notificationsReducer, // Quản lý thông báo
 });
-export const whiteListGlobal  = ['global.theme', 'global.isAuthenticated', 'global.user', 'global.history', ' global.videos'];
+// Danh sách whitelist cho global slice
+export const whiteListGlobal = [
+  'global.theme', // Lưu chủ đề giao diện
+  'global.user', // Lưu thông tin người dùng
+  'global.history', // Lưu lịch sử xem
+  'global.searchHistory', // Lưu lịch sử tìm kiếm
+  'global.videos', // Lưu danh sách video trong global
+];
 
-export const whileListVideos = ['videos.currentVideo'];
+// Danh sách whitelist cho videos slice
+export const whiteListVideos = [
+  'videos.currentVideo', // Lưu video đang xem
+];
+
+// Danh sách whitelist cho channels slice
+export const whiteListChannels = [
+  'channels.channels', // Lưu danh sách kênh
+];
+
+// Danh sách whitelist cho shorts slice
+export const whiteListShorts = [
+  'shorts.shorts', // Lưu danh sách video ngắn
+];
+
+// Danh sách whitelist cho playlists slice
+export const whiteListPlaylists = [
+  'playlists.playlists', // Lưu danh sách phát
+];
+
+// Danh sách whitelist cho comments slice
+export const whiteListComments = [
+  'comments.comments', // Lưu danh sách bình luận
+];
+
+// Danh sách whitelist cho notifications slice
+export const whiteListNotifications = [
+  'notifications.notifications', // Lưu danh sách thông báo
+];
+const combinedWhitelist = [
+  ...whiteListGlobal,
+  ...whiteListVideos,
+  ...whiteListChannels,
+  ...whiteListShorts,
+  ...whiteListPlaylists,
+  ...whiteListComments,
+  ...whiteListNotifications,
+];
 export const rootPersistConfig = getPersistConfig({
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  whitelist: [...whiteListGlobal , ...whileListVideos],
+  whitelist: combinedWhitelist,
   rootReducer,
 });

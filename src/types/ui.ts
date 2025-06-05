@@ -6,4 +6,9 @@ export interface PropItem {
   name?: string;
   image?: string; // Thêm trường image
   color?: string;
+  path: string;
+}
+export interface HeaderProps {
+  open: boolean;
+  handleDrawerToggle: () => void;
 }

@@ -1,10 +1,22 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { setGlobalSearch, addToHistory } from '@/redux/slices/global';
 import { searchVideos, setCurrentVideo } from '@/redux/slices/videos';
-import { Typography, Grid, Card, CardMedia, CardContent, Box, Avatar, Stack, CircularProgress } from '@mui/material';
+import { Typography, Grid, Card, CardMedia, CardContent, Box, Avatar, Stack, CircularProgress, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { RootState } from '@/redux/store';
+// Cấu hình Firebase của bạn
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+const firebaseConfig = {
+  apiKey: 'AIzaSyARR5UhJq5fRGgWGbBlxJI02ux-MOF-ekE',
+  authDomain: 'clone-a3b46.firebaseapp.com',
+  projectId: 'clone-a3b46',
+  storageBucket: 'clone-a3b46.firebasestorage.app',
+  messagingSenderId: '470789717923',
+  appId: '1:470789717923:web:f197abe415df87a3d5a416',
+  measurementId: 'G-07F8FWVYK2',
+};
 
 // Dữ liệu mock
 import { mockChannels, mockVideos } from '@/mockDb/mockDb';
@@ -29,6 +41,33 @@ const HomePage = () => {
     dispatch(searchVideos(searchQuery));
     setLoading(false);
   }, [searchQuery, dispatch]);
+  const firebaseConfig = {
+    apiKey: 'AIzaSyARR5UhJq5fRGgWGbBlxJI02ux-MOF-ekE',
+    authDomain: 'clone-a3b46.firebaseapp.com',
+    projectId: 'clone-a3b46',
+    storageBucket: 'clone-a3b46.firebasestorage.app',
+    messagingSenderId: '470789717923',
+    appId: '1:470789717923:web:f197abe415df87a3d5a416',
+    measurementId: 'G-07F8FWVYK2',
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const token = await result.user.getIdToken();
+      // const div = document.getElementById('token').value = token;
+      console.log('Firebase ID Token:', token);
+      alert('Đăng nhập thành công, token đã hiển thị!');
+    } catch (err) {
+      console.error('Login error', err);
+      alert('Lỗi đăng nhập, xem console để biết chi tiết');
+    }
+  };
 
   if (loading) {
     return (
@@ -54,6 +93,9 @@ const HomePage = () => {
           },
         }}
       >
+        <Button onClick={loginWithGoogle}>login with GG
+          
+        </Button>
         {videos.map((video: Video) => {
           const channel = mockChannels.find((ch) => ch.userId === video.userId);
           return (

@@ -1,4 +1,4 @@
-import type { User, Video } from '@/types/mock';
+import type { User, Video } from '@/types/model';
 export type ThemeMode = 'dark' | 'light' | 'custom';
 export interface SearchHistory {
   id: string;

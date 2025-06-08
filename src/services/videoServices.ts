@@ -1,6 +1,6 @@
 // src/services/videoService.ts
 import apiClient from './apiClient';
-import type { Video } from '@/types/mock'; // kiểu video nếu có
+import type { Video } from '@/types/model'; // kiểu video nếu có
 
 export const fetchVideos = async (): Promise<Video[]> => {
   const response = await apiClient.get('/videos');

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockComments } from '@/mockDb/mockDb'; // Giả lập dữ liệu comments
-import type { Comment } from '@/types/mock'
+import type { Comment } from '@/types/model'
 interface CommentsState {
   comments: Comment[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';

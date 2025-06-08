@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import globalReducer from './slices/global';
-import videosReducer from './slices/videos';
 import notificationsReducer from './slices/notifications';
 import channelsReducer from './slices/channels';
+import videosReducer from './slices/videos';
 import shortsReducer from './slices/shorts';
 import playlistsReducer from './slices/playlists';
 import commentsReducer from './slices/comments';
@@ -11,6 +11,7 @@ import { getPersistConfig } from 'redux-deep-persist';
 
 //-------------------------------
 export const rootReducer = combineReducers({
+  
   global: globalReducer, // Quản lý trạng thái toàn cục (theme, search, user, v.v.)
   videos: videosReducer, // Quản lý danh sách video
   channels: channelsReducer, // Quản lý kênh
@@ -25,11 +26,12 @@ export const whiteListGlobal = [
   'global.user', // Lưu thông tin người dùng
   'global.history', // Lưu lịch sử xem
   'global.searchHistory', // Lưu lịch sử tìm kiếm
-  'global.videos', // Lưu danh sách video trong global
 ];
 
 // Danh sách whitelist cho videos slice
 export const whiteListVideos = [
+  'videos.videos', // Lưu danh sách video
+  'videos.videoDetails', // Lưu chi tiết video
   'videos.currentVideo', // Lưu video đang xem
 ];
 
@@ -57,6 +59,13 @@ export const whiteListComments = [
 export const whiteListNotifications = [
   'notifications.notifications', // Lưu danh sách thông báo
 ];
+// Danh sách whitelist cho auth slice
+export const whiteListAuth = [
+  'auth.user', // Lưu thông tin người dùng đã đăng nhập
+  'auth.isAuthenticated', // Lưu trạng thái xác thực
+  'auth.token', // Lưu token xác thực
+];
+// Kết hợp tất cả whitelist để sử dụng trong cấu hình persist
 const combinedWhitelist = [
   ...whiteListGlobal,
   ...whiteListVideos,
@@ -65,6 +74,7 @@ const combinedWhitelist = [
   ...whiteListPlaylists,
   ...whiteListComments,
   ...whiteListNotifications,
+  ...whiteListAuth,
 ];
 export const rootPersistConfig = getPersistConfig({
   key: 'root',

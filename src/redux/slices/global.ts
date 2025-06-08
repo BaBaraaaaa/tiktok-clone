@@ -1,8 +1,7 @@
-import { mockVideos, mockChannels, mockSearchHistory } from '@/mockDb/mockDb';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { GlobalState, SearchHistory, ThemeMode } from '../type';
-import type { User, Video } from '@/types/mock';
+import type { User, Video } from '@/types/model';
 import { v4 as uuidv4 } from 'uuid';
 
 const initialState: GlobalState = {
@@ -11,9 +10,9 @@ const initialState: GlobalState = {
   history: [],
   user: undefined,
   businessInfoStatus: 'idle',
-  videos: mockVideos,
-  channels: mockChannels,
-  searchHistory: mockSearchHistory,
+  videos: [],
+  channels: [],
+  searchHistory: [],
 };
 const globalSlice: any = createSlice({
   name: 'global',

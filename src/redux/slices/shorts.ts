@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockShorts } from '@/mockDb/mockDb'; // Giả lập dữ liệu shorts
-import type { Video } from '@/types/mock';
+import type { Video } from '@/types/model';
 
 interface ShortsState {
   shorts: Video[];

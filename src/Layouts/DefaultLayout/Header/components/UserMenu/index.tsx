@@ -4,7 +4,7 @@ import { Box, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setUser } from '@/redux/slices/global';
-import type { User } from '@/types/mock';
+import type { User } from '@/types/model';
 
 const RightSection = styled(Box)(({ theme }) => ({
   display: 'flex',

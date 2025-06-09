@@ -8,7 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuIcon from '@mui/icons-material/Menu';
 import { setGlobalSearch } from '@/redux/slices/global';
-import { searchVideos } from '@/redux/slices/videos';
+// import { searchVideos } from '@/redux/slices/videos';
 import { useAppDispatch, useAppSelector, type RootState } from '@/redux/store';
 import type { HeaderProps } from '@/types/layout';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -133,7 +133,7 @@ const Header = ({ open, handleDrawerToggle }: HeaderProps) => {
   };
 
   const handleSearch = () => {
-    dispatch(searchVideos(searchQuery));
+    // dispatch(searchVideos(searchQuery));
   };
   const handleToggleTheme = () => {
     const current = theme.palette.mode; // từ useTheme()

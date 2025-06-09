@@ -51,15 +51,15 @@ const UserMenu: React.FC = () => {
 
   const handleLogin = () => {
     // Giả lập đăng nhập, thay bằng logic thực tế
-    const mockUser: User = {
-      userId: 'user123',
-      username: 'testuser',
-      email: 'test@example.com',
-      passwordHash: 'hashed',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    dispatch(setUser(mockUser));
+    // const mockUser: User = {
+    //   userId: 'user123',
+    //   username: 'testuser',
+    //   email: 'test@example.com',
+    //   passwordHash: 'hashed',
+    //   // createdAt: new Date(),
+    //   // updatedAt: new Date(),
+    // };
+    // dispatch(setUser(mockUser));
   };
 
   return (

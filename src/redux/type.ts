@@ -11,7 +11,7 @@ export interface GlobalState {
   history: string[];
   user?: User;
   businessInfoStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
-  videos: Video[]; // Fix: Use Video[] instead of { [key: string]: any[] }
-  channels: User[]; // Fix: Use Channel[] instead of { [key: string]: any[] }
-  searchHistory: SearchHistory[]; // Fix: Use SearchHistory[] instead of { [key: string]: any[] }
+  videos: Video[]; 
+  channels: User[];
+  searchHistory: SearchHistory[];
 }

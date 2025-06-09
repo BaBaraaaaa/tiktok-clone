@@ -2,8 +2,10 @@ import { rootPersistConfig, rootReducer } from '../redux/rootReducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { useAppDispatch, useAppSelector } from './hook/index';
+
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, rootReducer),
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

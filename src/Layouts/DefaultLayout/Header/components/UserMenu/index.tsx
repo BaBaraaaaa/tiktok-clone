@@ -4,7 +4,7 @@ import { Box, Button, IconButton, Menu, MenuItem } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setUser } from '@/redux/slices/global';
-import type { User } from '@/types/mock';
+import type { User } from '@/types/model';
 
 const RightSection = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -51,15 +51,15 @@ const UserMenu: React.FC = () => {
 
   const handleLogin = () => {
     // Giả lập đăng nhập, thay bằng logic thực tế
-    const mockUser: User = {
-      userId: 'user123',
-      username: 'testuser',
-      email: 'test@example.com',
-      passwordHash: 'hashed',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    dispatch(setUser(mockUser));
+    // const mockUser: User = {
+    //   userId: 'user123',
+    //   username: 'testuser',
+    //   email: 'test@example.com',
+    //   passwordHash: 'hashed',
+    //   // createdAt: new Date(),
+    //   // updatedAt: new Date(),
+    // };
+    // dispatch(setUser(mockUser));
   };
 
   return (

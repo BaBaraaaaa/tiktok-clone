@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockChannels } from '@/mockDb/mockDb';
-import type { User } from '@/types/mock';
+import type { User } from '@/types/model';
 
 interface ChannelsState {
   channels: User[];

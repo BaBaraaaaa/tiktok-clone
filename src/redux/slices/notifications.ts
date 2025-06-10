@@ -1,7 +1,7 @@
 import { mockNotifications } from '@/mockDb/mockDb';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type {Notification} from '@/types/mock'
+import type {Notification} from '@/types/model'
 interface NotificationsState {
   notifications: Notification[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';

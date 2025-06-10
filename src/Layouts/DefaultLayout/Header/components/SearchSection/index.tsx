@@ -6,7 +6,7 @@ import { InputBase, IconButton, Box } from '@mui/material';
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setGlobalSearch } from '@/redux/slices/global';
-import { searchVideos } from '@/redux/slices/videos';
+// import { searchVideos } from '@/redux/slices/videos';
 import type { ChangeEvent } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
@@ -84,7 +84,7 @@ const SearchSection: React.FC = () => {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      dispatch(searchVideos(searchQuery));
+      // dispatch(searchVideos(searchQuery));
     }
   };
 

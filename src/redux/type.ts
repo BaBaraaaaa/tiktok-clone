@@ -1,4 +1,4 @@
-import type { User, Video } from '@/types/mock';
+import type { User, Video } from '@/types/model';
 export type ThemeMode = 'dark' | 'light' | 'custom';
 export interface SearchHistory {
   id: string;
@@ -10,8 +10,7 @@ export interface GlobalState {
   globalSearch: string;
   history: string[];
   user?: User;
-  businessInfoStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
-  videos: Video[]; // Fix: Use Video[] instead of { [key: string]: any[] }
-  channels: User[]; // Fix: Use Channel[] instead of { [key: string]: any[] }
-  searchHistory: SearchHistory[]; // Fix: Use SearchHistory[] instead of { [key: string]: any[] }
+  videos: Video[]; 
+  channels: User[];
+  searchHistory: SearchHistory[];
 }

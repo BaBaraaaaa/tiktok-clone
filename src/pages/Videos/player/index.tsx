@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 import type { RootState } from '@/redux/store';
 
 const VideoPlayer = () => {
-  const video = useAppSelector((state: RootState) => state.videos.currentVideo);
-
+  const { video } = useAppSelector((state: RootState) => state.videos.current);
+  console.log(video);
   if (!video) {
     return (
       <Box sx={{ p: 3 }}>
@@ -20,11 +20,7 @@ const VideoPlayer = () => {
     <Box sx={{ px: { xs: 1, md: 3 }, pt: 2, pb: 6, maxWidth: 1200, mx: 'auto' }}>
       {/* Video Player */}
       <Box sx={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', mb: 2 }}>
-        <video
-          controls
-          src={video.videoUrl || ''}
-          style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }}
-        >
+        <video controls src={video.videoUrl || ''} style={{ width: '100%', height: '100%', borderRadius: 12, objectFit: 'cover' }}>
           Trình duyệt của bạn không hỗ trợ video.
         </video>
       </Box>
@@ -35,13 +31,7 @@ const VideoPlayer = () => {
       </Typography>
 
       {/* Info: Avatar, Channel, Actions */}
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
-        alignItems={{ xs: 'flex-start', sm: 'center' }}
-        spacing={2}
-        sx={{ mb: 1 }}
-      >
+      <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} spacing={2} sx={{ mb: 1 }}>
         {/* Avatar + Channel */}
         <Stack direction="row" spacing={2} alignItems="center">
           <Avatar sx={{ width: 44, height: 44 }} />
@@ -57,18 +47,10 @@ const VideoPlayer = () => {
 
         {/* Actions */}
         <Stack direction="row" spacing={1}>
-          <Button
-            variant="outlined"
-            startIcon={<ThumbUpOutlined />}
-            sx={{ textTransform: 'none', borderRadius: 20 }}
-          >
+          <Button variant="outlined" startIcon={<ThumbUpOutlined />} sx={{ textTransform: 'none', borderRadius: 20 }}>
             Thích
           </Button>
-          <Button
-            variant="outlined"
-            startIcon={<ShareOutlined />}
-            sx={{ textTransform: 'none', borderRadius: 20 }}
-          >
+          <Button variant="outlined" startIcon={<ShareOutlined />} sx={{ textTransform: 'none', borderRadius: 20 }}>
             Chia sẻ
           </Button>
           <IconButton>

@@ -1,43 +1,23 @@
-import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { setGlobalSearch, addToHistory } from '@/redux/slices/global';
-import { searchVideos, setCurrentVideo } from '@/redux/slices/videos';
-import { Typography, Grid, Card, CardMedia, CardContent, Box, Avatar, Stack, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { Typography, Grid, Card, CardMedia, CardContent, Box, Avatar, Stack, CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
-import type { RootState } from '@/redux/store';
-
-// Dữ liệu mock
-import { mockChannels, mockVideos } from '@/mockDb/mockDb';
 import { PATH_VIDEO } from '@/routes/path';
-import type { Video } from '@/types/mock';
+import { useAppDispatch, useAppSelector, type RootState } from '@/redux/store';
+import { mockChannels } from '@/mockDb/mockDb';
+import { addToHistory } from '@/redux/slices/global';
+import type { Video } from '@/types/model';
+import type { User } from 'firebase/auth';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const { videos } = useAppSelector((state: RootState) => state.global);
+  const { videos, status, error } = useAppSelector((state: RootState) => state.videos); // Lấy từ video slice
   console.log(videos);
-  const searchQuery = useAppSelector((state) => state.global.globalSearch);
-  const [loading, setLoading] = useState(true); // Trạng thái loading
-
-  const handleSearch = () => {
-    setLoading(true);
-    dispatch(searchVideos(searchQuery));
-    setLoading(false);
-  };
-
+  const searchQuery = useAppSelector((state: RootState) => state.global.globalSearch);
+  const [loading, setLoading] = useState(true);
+  const [channels, setChannels] = useState<{ [key: string]: User }>({}); // Lưu thông tin kênh
   useEffect(() => {
-    setLoading(true);
-    dispatch(searchVideos(searchQuery));
-    setLoading(false);
-  }, [searchQuery, dispatch]);
-
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+    if (status === 'succeeded' || status === 'failed') setLoading(false);
+  }, [status]);
   return (
     <Box sx={{ padding: { xs: 1, sm: 2, md: 3 } }}>
       <Grid
@@ -54,7 +34,10 @@ const HomePage = () => {
           },
         }}
       >
-        {videos.map((video: Video) => {
+        {/* <Button onClick={loginWithGoogle}>login with GG
+          
+        </Button> */}
+        {videos.map((video: any) => {
           const channel = mockChannels.find((ch) => ch.userId === video.userId);
           return (
             <Box key={video.videoId}>
@@ -76,10 +59,9 @@ const HomePage = () => {
                 }}
               >
                 <Link
-                  to={PATH_VIDEO.watch(video.videoId)}
+                  to={PATH_VIDEO.watch(video._id)}
                   onClick={() => {
-                    dispatch(setCurrentVideo(video));
-                    dispatch(addToHistory(video.videoId));
+                    dispatch(addToHistory(video._id));
                   }}
                   style={{ textDecoration: 'none' }}
                 >

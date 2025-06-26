@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { mockPlaylists } from '@/mockDb/mockDb'; // Giả lập dữ liệu playlists
-import type { Playlist } from '@/types/mock';
+import type { Playlist } from '@/types/model';
 
 interface PlaylistsState {
   playlists: Playlist[];

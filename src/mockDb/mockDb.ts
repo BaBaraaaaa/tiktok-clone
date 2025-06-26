@@ -1,9 +1,9 @@
 // src/mockDb/mockDb.ts
 import { v4 as uuidv4 } from 'uuid';
 import { faker } from '@faker-js/faker';
-import type { Playlist, Subscription, User, Video, VideoReaction } from '@/types/mock';
+import type { Playlist, Subscription, User, Video, VideoReaction } from '@/types/model';
 import type { SearchHistory } from '@/redux/type';
-import type { Comment, Notification } from '@/types/mock';
+import type { Comment, Notification } from '@/types/model';
 // Mock Users
 export const mockUsers: User[] = Array.from({ length: 10 }, () => ({
   userId: uuidv4(),

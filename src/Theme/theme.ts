@@ -14,45 +14,43 @@ export const useAppTheme = () => {
   const modeFromStore = useAppSelector((state: RootState) => state.global.theme);
   const mode: ThemeMode = ['dark', 'light', 'custom'].includes(modeFromStore as string) ? (modeFromStore as ThemeMode) : 'dark';
   const themeConfig: ThemeConfig = {
-    dark: {
-      palette: {
-        mode: 'dark',
-        primary: {
-          main: '#ff0000',
-          dark: '#cc0000',
-        },
-        background: {
-          default: '#121212',
-          paper: '#121212',
-        },
-        text: {
-          primary: '#ffffff',
-          secondary: '#ffffff',
-        },
-        grey: {
-          100: '#333',
-          200: '#444',
-        },
-      },
-    },
     light: {
       palette: {
         mode: 'light',
         primary: {
-          main: '#ffff',
-          dark: '#000000',
+          main: '#FF0000',
         },
         background: {
-          default: '#f0f0f0',
-          paper: '#ffffff',
+          default: '#FFFFFF',
+          paper: '#FFFFFF',
         },
         text: {
-          primary: '#000000',
-          secondary: '#444444',
+          primary: '#0F0F0F',
+          secondary: '#606060',
         },
         grey: {
-          100: '#e0e0e0',
-          200: '#cccccc',
+          100: '#F2F2F2',
+          200: '#E5E5E5',
+        },
+      },
+    },
+    dark: {
+      palette: {
+        mode: 'dark',
+        primary: {
+          main: '#FF0000',
+        },
+        background: {
+          default: '#0F0F0F',
+          paper: '#181818',
+        },
+        text: {
+          primary: '#FFFFFF',
+          secondary: '#AAAAAA',
+        },
+        grey: {
+          100: '#272727',
+          200: '#383838',
         },
       },
     },
@@ -60,20 +58,19 @@ export const useAppTheme = () => {
       palette: {
         mode: 'dark',
         primary: {
-          main: '#fff',
-          dark: '#cccc',
+          main: '#FF0000',
         },
         background: {
-          default: '#000000',
-          paper: '#000000',
+          default: '#111',
+          paper: '#111',
         },
         text: {
-          primary: '#ffffff',
-          secondary: '#b0b0b0',
+          primary: '#EEE',
+          secondary: '#AAA',
         },
         grey: {
-          100: '#444',
-          200: '#505050',
+          100: '#2a2a2a',
+          200: '#3c3c3c',
         },
       },
     },
@@ -91,7 +88,12 @@ export const useAppTheme = () => {
     components: {
       MuiAppBar: {
         styleOverrides: {
-          root: {},
+          root: {
+            color: baseTheme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: baseTheme.palette.grey[100],
+            },
+          },
         },
       },
       MuiButton: {
@@ -99,7 +101,7 @@ export const useAppTheme = () => {
           root: {
             color: baseTheme.palette.text.primary, // <- dùng text.primary cho chữ
             '&:hover': {
-              backgroundColor: baseTheme.palette.primary.dark,
+              backgroundColor: baseTheme.palette.grey[100],
             },
           },
         },

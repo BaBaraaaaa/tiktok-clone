@@ -10,17 +10,14 @@ import type { User } from 'firebase/auth';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const { videos, status, error } = useAppSelector((state: RootState) => state.global); // Lấy từ video slice
+  const { videos, status, error } = useAppSelector((state: RootState) => state.videos); // Lấy từ video slice
+  console.log(videos);
   const searchQuery = useAppSelector((state: RootState) => state.global.globalSearch);
   const [loading, setLoading] = useState(true);
   const [channels, setChannels] = useState<{ [key: string]: User }>({}); // Lưu thông tin kênh
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  useEffect(() => {
+    if (status === 'succeeded' || status === 'failed') setLoading(false);
+  }, [status]);
   return (
     <Box sx={{ padding: { xs: 1, sm: 2, md: 3 } }}>
       <Grid
@@ -40,7 +37,7 @@ const HomePage = () => {
         {/* <Button onClick={loginWithGoogle}>login with GG
           
         </Button> */}
-        {videos.map((video: Video) => {
+        {videos.map((video: any) => {
           const channel = mockChannels.find((ch) => ch.userId === video.userId);
           return (
             <Box key={video.videoId}>
@@ -62,9 +59,9 @@ const HomePage = () => {
                 }}
               >
                 <Link
-                  to={PATH_VIDEO.watch(video.videoId)}
+                  to={PATH_VIDEO.watch(video._id)}
                   onClick={() => {
-                    dispatch(addToHistory(video.videoId));
+                    dispatch(addToHistory(video._id));
                   }}
                   style={{ textDecoration: 'none' }}
                 >

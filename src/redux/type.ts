@@ -10,7 +10,6 @@ export interface GlobalState {
   globalSearch: string;
   history: string[];
   user?: User;
-  businessInfoStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   videos: Video[]; 
   channels: User[];
   searchHistory: SearchHistory[];

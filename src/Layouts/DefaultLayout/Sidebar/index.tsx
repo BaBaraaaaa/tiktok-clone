@@ -25,7 +25,7 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import type { SidebarProps } from '@/types/layout';
 import type { PropItem } from '@/types/ui';
 import SidebarSection from './components/SidebarSection';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 const drawerWidthCollapsed = 60;
@@ -72,7 +72,7 @@ export const CustomListItemButton = styled(ListItemButton, {
   display: 'flex',
   justifyContent: open ? 'flex-start' : 'center',
   '&:hover': {
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.action.hover,
   },
   ...(selected && {
     backgroundColor: theme.palette.grey[200],
@@ -110,47 +110,49 @@ export const ChannelAvatar = styled('img')(({ theme }) => ({
 export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname || undefined;
   const menuItems: PropItem[] = [
-    { icon: <HomeFilledIcon fontSize="small" />, text: 'Home', path: '/', selected: true },
+    { icon: <HomeFilledIcon fontSize="small" />, text: 'Home', path: '/' },
     { icon: <AppShortcutIcon fontSize="small" />, text: 'Shorts', path: '/shorts' },
-    { icon: <SubscriptionsIcon fontSize="small" />, text: 'Subscriptions', path: '/subscriptions', notification: true },
+    { icon: <SubscriptionsIcon fontSize="small" />, text: 'Subscriptions', path: '/subscriptions' },
   ];
 
   const youItems = [
-    { icon: <HistoryIcon fontSize="small" />, text: 'History', path: '/history', selected: false },
-    { icon: <PlaylistAddIcon fontSize="small" />, text: 'Playlists', path: '/playlists', selected: false },
-    { icon: <WatchLaterIcon fontSize="small" />, text: 'Watch later', path: '/watch-later', selected: false },
-    { icon: <ThumbUpIcon fontSize="small" />, text: 'Liked videos', path: '/liked-videos', selected: false },
+    { icon: <HistoryIcon fontSize="small" />, text: 'History', path: '/history' },
+    { icon: <PlaylistAddIcon fontSize="small" />, text: 'Playlists', path: '/playlists' },
+    { icon: <WatchLaterIcon fontSize="small" />, text: 'Watch later', path: '/watch-later' },
+    { icon: <ThumbUpIcon fontSize="small" />, text: 'Liked videos', path: '/liked-videos' },
   ];
 
   const subscriptionItems = [
-    { name: 'BroNub', image: 'https://via.placeholder.com/24', color: '#fff', selected: false },
-    { name: 'Mạc Cơ Studio', image: 'https://via.placeholder.com/24', color: '#fff', selected: false },
-    { name: 'CD Media - Why?', image: 'https://via.placeholder.com/24', color: '#000', selected: false, notification: true },
-    { name: 'Chuột Chanel', image: 'https://via.placeholder.com/24', color: '#fff', selected: false },
-    { name: 'Dipesh Malvia', image: 'https://via.placeholder.com/24', color: '#fff', selected: false, notification: true },
-    { name: 'TrungQuanDev', image: 'https://via.placeholder.com/24', color: '#fff', selected: false, notification: true },
+    { name: 'BroNub', image: 'https://via.placeholder.com/24', color: '#fff' },
+    { name: 'Mạc Cơ Studio', image: 'https://via.placeholder.com/24', color: '#fff' },
+    { name: 'CD Media - Why?', image: 'https://via.placeholder.com/24', color: '#000' },
+    { name: 'Chuột Chanel', image: 'https://via.placeholder.com/24', color: '#fff' },
+    { name: 'Dipesh Malvia', image: 'https://via.placeholder.com/24', color: '#fff' },
+    { name: 'TrungQuanDev', image: 'https://via.placeholder.com/24', color: '#fff' },
   ];
 
   const exploreItems = [
-    { icon: <WhatshotIcon fontSize="small" />, text: 'Trending', selected: false },
-    { icon: <MusicNoteIcon fontSize="small" />, text: 'Music', selected: false },
-    { icon: <SportsEsportsIcon fontSize="small" />, text: 'Gaming', selected: false },
-    { icon: <NewspaperIcon fontSize="small" />, text: 'News', selected: false },
-    { icon: <SportsSoccerIcon fontSize="small" />, text: 'Sports', selected: false },
+    { icon: <WhatshotIcon fontSize="small" />, text: 'Trending' },
+    { icon: <MusicNoteIcon fontSize="small" />, text: 'Music' },
+    { icon: <SportsEsportsIcon fontSize="small" />, text: 'Gaming' },
+    { icon: <NewspaperIcon fontSize="small" />, text: 'News' },
+    { icon: <SportsSoccerIcon fontSize="small" />, text: 'Sports' },
   ];
 
   const moreFromYouTubeItems = [
-    { icon: <YouTubeIcon fontSize="small" sx={{ color: theme.palette.primary.main }} />, text: 'YouTube Premium', selected: false },
-    { icon: <PlayCircleFilledIcon fontSize="small" sx={{ color: theme.palette.primary.main }} />, text: 'YouTube Music', selected: false },
-    { icon: <ChildCareIcon fontSize="small" sx={{ color: theme.palette.primary.main }} />, text: 'YouTube Kids', selected: false },
+    { icon: <YouTubeIcon fontSize="small" sx={{ color: theme.palette.primary.main }} />, text: 'YouTube Premium' },
+    { icon: <PlayCircleFilledIcon fontSize="small" sx={{ color: theme.palette.primary.main }} />, text: 'YouTube Music' },
+    { icon: <ChildCareIcon fontSize="small" sx={{ color: theme.palette.primary.main }} />, text: 'YouTube Kids' },
   ];
 
   const settingsItems = [
-    { icon: <DisplaySettingsIcon fontSize="small" />, text: 'Settings', selected: false },
-    { icon: <ReportIcon fontSize="small" />, text: 'Report history', selected: false },
-    { icon: <HelpIcon fontSize="small" />, text: 'Help', selected: false },
-    { icon: <FeedbackIcon fontSize="small" />, text: 'Send feedback', selected: false },
+    { icon: <DisplaySettingsIcon fontSize="small" />, text: 'Settings' },
+    { icon: <ReportIcon fontSize="small" />, text: 'Report history' },
+    { icon: <HelpIcon fontSize="small" />, text: 'Help' },
+    { icon: <FeedbackIcon fontSize="small" />, text: 'Send feedback' },
   ];
   const handleNavigate = (path?: string) => {
     if (path) {
@@ -162,15 +164,18 @@ export default function Sidebar({ open, handleDrawerToggle }: SidebarProps) {
     <SidebarContainer open={open}>
       {/* Menu chính (luôn hiển thị, chỉ icon khi thu gọn) */}
       <List dense>
-        {menuItems.map((item: PropItem, index: number) => (
-          <ListItem key={index} disablePadding>
-            <CustomListItemButton open={open} selected={item.selected} onClick={() => handleNavigate(item.path)}>
-              <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
-              <CustomListItemText open={open} primary={item.text} />
-              {item.notification && <NotificationDot open={open} />}
-            </CustomListItemButton>
-          </ListItem>
-        ))}
+        {menuItems.map((item: PropItem, index: number) => {
+          const isSelected = currentPath === item.path;
+          return (
+            <ListItem key={index} disablePadding>
+              <CustomListItemButton open={open} selected={isSelected} onClick={() => handleNavigate(item.path)}>
+                <CustomListItemIcon open={open}>{item.icon}</CustomListItemIcon>
+                <CustomListItemText open={open} primary={item.text} />
+                {item.notification && <NotificationDot open={open} />}
+              </CustomListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
 
       {/* Các mục bổ sung chỉ hiển thị khi mở rộng */}
